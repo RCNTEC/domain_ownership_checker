@@ -8,6 +8,8 @@ class DomainOwnershipChecker
     #
     # @since 0.0.1
     class TextFileProvider < BaseProvider
+      attr_reader :filename
+
       require 'openssl'
       OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
@@ -17,16 +19,16 @@ class DomainOwnershipChecker
       end
 
       def verified?
-        fetch('http://' + domain + '/' + code) == 200
+        fetch('http://' + domain + '/' + filename) == 200
       end
 
       private
 
       def validate_options!(options)
-        @code = begin
-                  options.fetch(:code)
+        @filename = begin
+                  options.fetch(:filename)
                 rescue
-                  raise ArgumentError, 'Options should be included :code'
+                  raise ArgumentError, 'Options should be included :filename'
                 end
       end
 

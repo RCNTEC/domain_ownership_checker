@@ -15,7 +15,7 @@ describe DomainOwnershipChecker::Providers::TextFileProvider do
         let(:attributes) do
           {
             domain: 'gruz0.ru',
-            code: 'robots.txt'
+            filename: 'robots.txt'
           }
         end
 
@@ -30,7 +30,7 @@ describe DomainOwnershipChecker::Providers::TextFileProvider do
         let(:attributes) do
           {
             domain: 'gruz0.ru',
-            code: 'non-existent.txt'
+            filename: 'non-existent.txt'
           }
         end
 
@@ -39,12 +39,12 @@ describe DomainOwnershipChecker::Providers::TextFileProvider do
         end
       end
 
-      describe 'without code' do
+      describe 'without filename' do
         let(:attributes) { { domain: 'gruz0.ru' } }
 
         it 'raises exception' do
           err = assert_raises(ArgumentError) { subject.verified? }
-          assert_equal 'Options should be included :code', err.message
+          assert_equal 'Options should be included :filename', err.message
         end
       end
     end
