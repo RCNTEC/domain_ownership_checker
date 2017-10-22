@@ -26,6 +26,19 @@ describe DomainOwnershipChecker::Providers::TextFileProvider do
     end
 
     describe 'invalid attributes' do
+      describe 'with non-existent domain' do
+        let(:attributes) do
+          {
+            domain: 'non-existent-domain.tld'
+          }
+        end
+
+        it 'raises exception if domain does not exist' do
+          err = assert_raises(SocketError) { subject }
+          assert_equal 'Domain does not exist', err.message
+        end
+      end
+
       describe 'with non-existent file' do
         let(:attributes) do
           {
