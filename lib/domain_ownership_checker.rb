@@ -2,6 +2,8 @@
 #
 # @since 0.0.1
 class DomainOwnershipChecker
+  class ItShouldBeOverridedError < StandardError; end
+
   attr_reader :domain, :code
 
   def initialize(domain:, code:)
