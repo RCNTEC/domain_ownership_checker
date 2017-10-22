@@ -13,8 +13,9 @@ describe DomainOwnershipChecker::Providers::DnsProvider do
     describe 'valid attributes' do
       let(:attributes) do
         {
-          domain: 'ns01.ya.ru',
-          cname: 'any.yandex.ru'
+          domain: 'gruz0.ru',
+          cname: 'mail.gruz0.ru',
+          cname_alias: 'ghs.googlehosted.com'
         }
       end
 
@@ -40,8 +41,23 @@ describe DomainOwnershipChecker::Providers::DnsProvider do
       describe 'with non-existent CNAME record' do
         let(:attributes) do
           {
-            domain: 'ns01.ya.ru',
-            cname: 'some-strange-record.yandex.ru'
+            domain: 'gruz0.ru',
+            cname: 'non-existent-cname.gruz0.ru',
+            cname_alias: 'ghs.googlehosted.com'
+          }
+        end
+
+        it 'returns false if file does not exist' do
+          assert_equal false, subject.verified?
+        end
+      end
+
+      describe 'with non-existent CNAME record' do
+        let(:attributes) do
+          {
+            domain: 'gruz0.ru',
+            cname: 'mail.gruz0.ru',
+            cname_alias: 'unknown-cname.domain.tld'
           }
         end
 
@@ -56,6 +72,15 @@ describe DomainOwnershipChecker::Providers::DnsProvider do
         it 'raises exception' do
           err = assert_raises(ArgumentError) { subject.verified? }
           assert_equal 'Options should be included :cname', err.message
+        end
+      end
+
+      describe 'without cname_alias' do
+        let(:attributes) { { domain: 'gruz0.ru', cname: 'mail.gruz0.ru' } }
+
+        it 'raises exception' do
+          err = assert_raises(ArgumentError) { subject.verified? }
+          assert_equal 'Options should be included :cname_alias', err.message
         end
       end
     end
