@@ -10,7 +10,7 @@ class DomainOwnershipChecker
     #
     # @since 0.0.1
     class BaseProvider
-      attr_reader :domain, :code
+      attr_reader :domain
 
       def initialize(options)
         raise ArgumentError, 'Options should be provided' unless options
