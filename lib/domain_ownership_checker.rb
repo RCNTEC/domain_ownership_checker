@@ -5,11 +5,12 @@ require_relative 'domain_ownership_checker/providers'
 # @since 0.0.1
 class DomainOwnershipChecker
   class ItShouldBeOverridedError < StandardError; end
+  class DomainOwnershipCheckerError < StandardError; end
   class DomainNotFoundError < StandardError; end
   class FileNotFoundError < StandardError; end
   class CnameNotFoundError < StandardError; end
 
-  attr_reader :options, :error
+  attr_reader :options, :errors
 
   def initialize(options)
     @options = options
@@ -21,23 +22,10 @@ class DomainOwnershipChecker
   #
   # @since 0.0.1
   def verified?
-    Providers.verified?(options)
-  rescue => e
-    @error = e.message
-    false
-  end
-
-  def file_verified?
-    Providers.file_verified?(options)
-  rescue => e
-    @error = e.message
-    false
-  end
-
-  def cname_verified?
-    Providers.cname_verified?(options)
-  rescue => e
-    @error = e.message
+    providers = Providers.new(options)
+    providers.verified?
+  rescue
+    @errors = providers.errors
     false
   end
 end

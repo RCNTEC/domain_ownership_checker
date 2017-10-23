@@ -23,29 +23,27 @@ describe DomainOwnershipChecker do
         it 'returns false if non-existent domain' do
           valid_attributes[:domain] = 'domain.tld'
           assert_equal false, subject.verified?
-          assert_equal 'Domain not found', subject.error
+          assert_includes subject.errors, 'Domain not found'
         end
 
         it 'returns false if invalid domain with protocol' do
           valid_attributes[:domain] = 'http://domain.tld'
           assert_equal false, subject.verified?
-          assert_equal 'Domain not found', subject.error
+          assert_includes subject.errors, 'Domain not found'
         end
-      end
 
-      describe '#file_verified?' do
-        it 'has non-existent file' do
+        it 'returns false if it has non-existent file' do
           valid_attributes[:filename] = 'non-existent.txt'
-          assert_equal false, subject.file_verified?
-          assert_equal 'File not found', subject.error
+          assert_equal false, subject.verified?
+          assert_includes subject.errors, 'File not found'
         end
-      end
 
-      describe '#cname_verified?' do
-        it 'hasn\'t cname' do
+        # FIXME: It should be refactored because without filename this test won't be broken
+        it 'returns false if it hasn\'t cname' do
+          valid_attributes[:filename] = 'non-existent.txt'
           valid_attributes[:cname] = 'non-existent-cname.gruz0.ru'
-          assert_equal false, subject.cname_verified?
-          assert_equal 'CNAME not found', subject.error
+          assert_equal false, subject.verified?
+          assert_includes subject.errors, 'CNAME not found'
         end
       end
     end

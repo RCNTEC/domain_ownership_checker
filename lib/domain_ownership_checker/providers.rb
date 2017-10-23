@@ -11,16 +11,28 @@ class DomainOwnershipChecker
   #
   # @since 0.0.1
   class Providers
-    def self.verified?(options)
-      file_verified?(options) || cname_verified?(options)
+    attr_reader :options, :errors
+
+    def initialize(options)
+      @options = options
     end
 
-    def self.file_verified?(options)
-      TextFileProvider.new(options).verified?
-    end
+    def verified?
+      @errors = []
 
-    def self.cname_verified?(options)
-      DnsProvider.new(options).verified?
+      [TextFileProvider, DnsProvider].each do |provider|
+        begin
+          return true if provider.new(options).verified?
+        rescue DomainNotFoundError, FileNotFoundError, CnameNotFoundError => e
+          @errors << e.message
+          next
+        end
+      end
+
+      return if @errors.empty?
+
+      @errors.uniq!
+      raise DomainOwnershipCheckerError
     end
   end
 end
