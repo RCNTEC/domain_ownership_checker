@@ -19,8 +19,8 @@ describe DomainOwnershipChecker::Providers::BaseProvider do
       let(:attributes) { { domain: 'domain.tld' } }
 
       it 'raises exception if domain does not exist' do
-        err = assert_raises(SocketError) { subject }
-        assert_equal 'Domain does not exist', err.message
+        err = assert_raises(DomainOwnershipChecker::DomainNotFoundError) { subject }
+        assert_equal 'Domain not found', err.message
       end
     end
   end

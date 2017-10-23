@@ -29,7 +29,7 @@ class DomainOwnershipChecker
         Socket.gethostbyname(domain)
         true
       rescue SocketError
-        raise SocketError, 'Domain does not exist'
+        raise DomainOwnershipChecker::DomainNotFoundError, 'Domain not found'
       end
 
       def verified?

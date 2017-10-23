@@ -34,8 +34,8 @@ describe DomainOwnershipChecker::Providers::TextFileProvider do
         end
 
         it 'raises exception if domain does not exist' do
-          err = assert_raises(SocketError) { subject }
-          assert_equal 'Domain does not exist', err.message
+          err = assert_raises(DomainOwnershipChecker::DomainNotFoundError) { subject }
+          assert_equal 'Domain not found', err.message
         end
       end
 
@@ -48,7 +48,8 @@ describe DomainOwnershipChecker::Providers::TextFileProvider do
         end
 
         it 'returns false if file does not exist' do
-          assert_equal false, subject.verified?
+          err = assert_raises(DomainOwnershipChecker::FileNotFoundError) { subject.verified? }
+          assert_equal 'File not found', err.message
         end
       end
 

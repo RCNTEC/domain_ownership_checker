@@ -39,7 +39,9 @@ class DomainOwnershipChecker
         require 'resolv'
 
         records = Resolv::DNS.new.getresources(cname, Resolv::DNS::Resource::IN::CNAME)
-        records.select { |record| record.name.to_s == cname_alias }.to_a.size == 1
+        return true if records.select { |record| record.name.to_s == cname_alias }.to_a.size == 1
+
+        raise CnameNotFoundError, 'CNAME not found'
       end
     end
   end

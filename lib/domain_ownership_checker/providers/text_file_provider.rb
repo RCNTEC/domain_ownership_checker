@@ -44,6 +44,8 @@ class DomainOwnershipChecker
           when Net::HTTPMovedPermanently
             location = response['location']
             fetch(location, limit - 1)
+          when Net::HTTPNotFound
+            raise FileNotFoundError, 'File not found'
           else
             response.code.to_i
           end
