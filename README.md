@@ -1,2 +1,3 @@
-# domain_ownership_checker
-Checks domain ownership througn a text file and DNS CNAME-record
+# Domain Ownership Checker
+
+Checks domain ownership through a text file and DNS CNAME-record
