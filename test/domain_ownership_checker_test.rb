@@ -19,7 +19,7 @@ describe DomainOwnershipChecker do
     end
 
     describe 'skip_validation' do
-      it 'return true without a real check domain' do
+      it 'returns true without a real check domain' do
         DomainOwnershipChecker.configure do |config|
           config.skip_validation = true
         end

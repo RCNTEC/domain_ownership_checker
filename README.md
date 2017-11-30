@@ -16,7 +16,7 @@ Then run
 ```
 ## USAGE
 
-First of all, you need to configure gem to use in development and test enviroments. For skiping real verification setup `skip_validation = true` (for default it's `false`):
+First of all, you need to configure gem to use in development and test environments. For skiping real verification setup `skip_validation = true` (for default it's `false`):
 
 ```ruby
 DomainOwnershipChecker.configure do |config|
@@ -27,6 +27,6 @@ end
 After that you can use gem - initialize object and call method '#verified?'. It returns true on success and false if not
 
 ```ruby
-checker = DomainOwnershipChecker.new({domain: 'domain.tld', filename: 'file.txt', cname: 'cname', cname_alias: 'cname_alias'})
+checker = DomainOwnershipChecker.new(domain: 'domain.tld', filename: 'file.txt', cname: 'cname', cname_alias: 'cname_alias')
 checker.verified? #returns [Boolean] after checking
 ```
