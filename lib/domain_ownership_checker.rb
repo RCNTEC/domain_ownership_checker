@@ -16,12 +16,35 @@ class DomainOwnershipChecker
     @options = options
   end
 
+  # Configuration block
+  def self.configure
+    @config = Config.new
+    yield @config if block_given?
+  end
+
+  def self.config
+    @config ||= Config.new
+  end
+
+  class Config
+    attr_accessor :skip_validation
+
+    def initialize
+      default_configuration
+    end
+
+    def default_configuration
+      @skip_validation = false
+    end
+  end
+
   # Returns domain verification status
   #
   # @return [Boolean]
   #
   # @since 0.0.1
   def verified?
+    return true if DomainOwnershipChecker.config.skip_validation
     providers = Providers.new(options)
     providers.verified?
   rescue
