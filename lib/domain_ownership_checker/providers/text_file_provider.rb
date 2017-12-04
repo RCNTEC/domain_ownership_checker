@@ -11,7 +11,6 @@ class DomainOwnershipChecker
       attr_reader :filename
 
       require 'openssl'
-      OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
       def initialize(options)
         super(options)
@@ -36,7 +35,7 @@ class DomainOwnershipChecker
         require 'net/http'
 
         uri = URI(location)
-        Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+        Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', verify_ssl: false) do |http|
           request = Net::HTTP::Get.new uri
           response = http.request(request)
 
