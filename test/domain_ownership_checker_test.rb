@@ -18,6 +18,16 @@ describe DomainOwnershipChecker do
       end
     end
 
+    describe 'skip_validation' do
+      it 'returns true without a real check domain' do
+        DomainOwnershipChecker.configure do |config|
+          config.skip_validation = true
+        end
+        valid_attributes = {}
+        assert_equal true, subject.verified?
+      end
+    end
+
     describe 'invalid attributes' do
       describe '#verified?' do
         it 'returns false if non-existent domain' do
