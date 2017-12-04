@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 Gem::Specification.new do |gem|
   gem.name          = 'domain_ownership_checker'
   gem.version       = '0.0.3'
-  gem.date          = '2017-12-4'
+  gem.date          = '2017-12-04'
   gem.summary       = 'Domain Ownership Checker'
   gem.description   = 'Checks domain ownership through a text file and DNS CNAME-record'
   gem.authors       = ['Alexander Kadyrov', 'Pavel Kosykh']
